@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:create, :index]
       resources :sessions, only: :create
+      get "/", to: "home#index"  # Root route for API
     end
   end
+
+  root "api/v1/home#index"  # Set root route
 end
