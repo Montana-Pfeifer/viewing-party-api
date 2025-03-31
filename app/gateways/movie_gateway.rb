@@ -6,6 +6,12 @@ class MovieGateway
         json[:results]
     end
 
+    def self.find_movie(movie)
+        response = conn.get("/3/search/movie?api_key=#{Rails.application.credentials.tmdb[:key]}&query=#{URI.encode_www_form_component(movie)}")
+
+        json = JSON.parse(response.body, symbolize_names: true)
+        json[:results]
+    end
     private
 
     def self.conn
