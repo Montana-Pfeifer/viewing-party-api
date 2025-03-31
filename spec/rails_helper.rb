@@ -6,6 +6,7 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'simplecov'
+require 'webmock/rspec'
 SimpleCov.start
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -70,4 +71,9 @@ Shoulda::Matchers.configure do |config|
     with.test_framework :rspec
     with.library :rails
   end
+end
+
+# FactoryBot configuration
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods  # This allows you to use methods like `create`, `build`, etc.
 end

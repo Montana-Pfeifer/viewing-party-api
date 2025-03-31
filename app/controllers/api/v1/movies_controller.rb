@@ -12,13 +12,24 @@ class Api::V1::MoviesController < ApplicationController
         render json: formatted_movies
     end
 
-    # def show
-    #     query = params[:query]
+    def create_viewing_party
 
-    #     searched_movies = MovieGateway.find_movie(query)
+    viewing_party_params = params.require(:viewing_party).permit(:name, :start_time, :end_time, :movie_id, invitees: [])
 
-    #     formatted_movies = MovieSerializer.format_movies(searched_movies)
+    @viewing_party = ViewingParty.create(
+        name: viewing_party_params[:name],
+        start_time: viewing_party_params[:start_time],
+        end_time: viewing_party_params[:end_time],
+        movie_id: viewing_party_params[:movie_id]
+    )
 
-    #     render json: formatted_movies
-    # end
+    viewing_party_params[:invitees].each do |invitee_id|
+        invitee = User.find_by(id: invitee_id)
+        if invitee
+            InviteeViewingParty.create(viewing_party_id: @viewing_party.id, invitee_id: invitee.id)
+        end
+    end
+
+    render json: @viewing_party, status: :created
+    end
 end

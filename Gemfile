@@ -52,4 +52,9 @@ group :development do
   # gem "spring"
 end
 
+group :test do
+  gem "factory_bot_rails"
+  gem "webmock"
+end
+
 gem 'simplecov', require: false, group: :test
